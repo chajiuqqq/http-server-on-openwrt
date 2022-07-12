@@ -8,3 +8,7 @@ services:
 
   redis:
     image: "redis:alpine"
+
+dns:
+  - 8.8.8.8
+  - 114.114.114.114
