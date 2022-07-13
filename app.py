@@ -5,7 +5,7 @@ from flask import Flask, request
 import json
 
 app = Flask(__name__)
-redis = Redis(host='127.0.0.1', port=6379, decode_responses=True, charset="utf-8")
+redis = Redis(host='redis', port=6379, decode_responses=True, charset="utf-8")
 
 abnormal_ips_prefix = 'abnormal_IPs'
 banned_ips_prefix = 'banned_IPs'
