@@ -9,6 +9,8 @@ redis = Redis(host='redis', port=6379, decode_responses=True, charset="utf-8")
 
 abnormal_ips_prefix = 'abnormal_IPs'
 banned_ips_prefix = 'banned_IPs'
+banned_count_rule = 10
+banned_time = 3600 # 1h
 
 @app.route('/')
 def hello():
@@ -33,7 +35,7 @@ def detectionResult():
     data = json.loads(request.data) # 将json字符串转为dict
     ips = data['abnormal_IPs']
     for ip in ips:
-        if not str(ip).startswith('192.168'):
+        if not str(ip).startswith('192.168') or not str(ip).startswith('0'):
             key = '{}:{}'.format(abnormal_ips_prefix,ip)
             expire_time_s = 20
             redis.incr(key)
@@ -49,9 +51,9 @@ def processFireWall():
         count = redis.get(full_ip)
         ip = full_ip.split(':')[1]
         key = '{}:{}'.format(banned_ips_prefix,ip)
-        if int(count) > 3:
+        if int(count) > banned_count_rule:
             redis.set(key,1)
-            redis.expire(key,3600*24)
+            redis.expire(key,banned_time)
 
 def getIPs(prefix,step=':'):
     res = redis.keys('{}*'.format(prefix))
