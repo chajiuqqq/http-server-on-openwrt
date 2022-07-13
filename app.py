@@ -5,7 +5,7 @@ from flask import Flask, request
 import json
 
 app = Flask(__name__)
-redis = Redis(host='redis', port=6379, decode_responses=True, charset="utf-8")
+redis = Redis(host='127.0.0.1', port=6379, decode_responses=True, charset="utf-8")
 
 abnormal_ips_prefix = 'abnormal_IPs'
 banned_ips_prefix = 'banned_IPs'
@@ -41,7 +41,9 @@ def detectionResult():
     data = json.loads(request.data) # 将json字符串转为dict
     ips = data['abnormal_IPs']
     for ip in ips:
-        if not str(ip).startswith('192.168') or not str(ip).startswith('0'):
+        
+        if not str(ip).startswith('192.168.6') and not str(ip).startswith('0'):    
+            print(ip)
             key = '{}:{}'.format(abnormal_ips_prefix,ip)
             expire_time_s = 20
             redis.incr(key)
