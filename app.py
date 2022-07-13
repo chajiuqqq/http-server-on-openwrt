@@ -33,10 +33,11 @@ def detectionResult():
     data = json.loads(request.data) # 将json字符串转为dict
     ips = data['abnormal_IPs']
     for ip in ips:
-        key = '{}:{}'.format(abnormal_ips_prefix,ip)
-        expire_time_s = 20
-        redis.incr(key)
-        redis.expire(key,expire_time_s)
+        if not str(ip).startswith('192.168'):
+            key = '{}:{}'.format(abnormal_ips_prefix,ip)
+            expire_time_s = 20
+            redis.incr(key)
+            redis.expire(key,expire_time_s)
 
     processFireWall()
     return "OK"
