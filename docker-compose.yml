@@ -7,7 +7,7 @@ services:
       - /root/web:/code
     ports:
      - "5000:5000"
-    command: pwd && python app.py
+    command: echo "pwd:" && pwd && ls && python app.py
 
   redis:
     image: "redis:alpine"
