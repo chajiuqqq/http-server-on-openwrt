@@ -26,12 +26,10 @@ def info():
 
     return {'abnormal_ips': abnormal_ips,
             'banned_ips':banned_ips,
-            'configure':{
-                'abnormal_ips_prefix':abnormal_ips_prefix,
-                'banned_ips_prefix':banned_ips_prefix,
-                'banned_count_rule':banned_count_rule,
-                'banned_time':banned_time
-            }
+            'abnormal_ips_prefix':abnormal_ips_prefix,
+            'banned_ips_prefix':banned_ips_prefix,
+            'banned_count_rule':banned_count_rule,
+            'banned_time':banned_time
             }
     
 
