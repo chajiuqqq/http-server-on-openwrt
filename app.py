@@ -24,7 +24,15 @@ def info():
     abnormal_ips = getIPs(abnormal_ips_prefix)
     banned_ips = getIPs(banned_ips_prefix)
 
-    return {'abnormal_ips': abnormal_ips,'banned_ips':banned_ips}
+    return {'abnormal_ips': abnormal_ips,
+            'banned_ips':banned_ips,
+            'configure':{
+                'abnormal_ips_prefix':abnormal_ips_prefix,
+                'banned_ips_prefix':banned_ips_prefix,
+                'banned_count_rule':banned_count_rule,
+                'banned_time':banned_time
+            }
+            }
     
 
 # 通过methods设置POST请求
