@@ -2,7 +2,7 @@
 from cmath import exp
 from redis import Redis
 from flask import Flask, request
-import json
+import json,time
 
 app = Flask(__name__)
 redis = Redis(host='redis', port=6379, decode_responses=True, charset="utf-8")
@@ -22,7 +22,9 @@ def hello():
 @app.route('/info')
 def info():
     abnormal_ips = getIPs(abnormal_ips_prefix)
+    abnormal_ips = sorted(abnormal_ips, key = lambda i: i['value'],reverse=True) 
     banned_ips = getIPs(banned_ips_prefix)
+    banned_ips = sorted(banned_ips, key = lambda i: i['value'],reverse=True)
 
     return {'abnormal_ips': abnormal_ips,
             'banned_ips':banned_ips,
@@ -54,13 +56,14 @@ def detectionResult():
 
 def processFireWall():
     
+    time_str = time.strftime("%H:%M", time.localtime()) 
     ips_keys = redis.keys('{}*'.format(abnormal_ips_prefix))
     for full_ip in ips_keys:
         count = redis.get(full_ip)
         ip = full_ip.split(':')[1]
         key = '{}:{}'.format(banned_ips_prefix,ip)
         if int(count) > banned_count_rule:
-            redis.set(key,1)
+            redis.set(key,time_str)
             redis.expire(key,banned_time)
 
 def getIPs(prefix,step=':'):
@@ -68,8 +71,8 @@ def getIPs(prefix,step=':'):
     ips = []
     for item in res:
         ip = item.split(step)[1]
-        ips.append(ip)
-
+        value = redis.get(item)
+        ips.append({'key':ip,'value':value})
     return ips
 
 if __name__ == "__main__":
