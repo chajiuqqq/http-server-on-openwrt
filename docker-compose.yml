@@ -5,8 +5,6 @@ services:
     build: .
     volumes:
       - /root/web:/code
-    environment:
-      - TZ=Asia/Shanghai
     ports:
      - "5000:5000"
     command: python app.py

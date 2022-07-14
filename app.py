@@ -3,9 +3,10 @@ from cmath import exp
 from tokenize import Number
 from redis import Redis
 from flask import Flask, request
-import json,time
+import json,datetime,pytz
 
 app = Flask(__name__)
+# redis = Redis(host='127.0.0.1', port=6379, decode_responses=True, charset="utf-8")
 redis = Redis(host='redis', port=6379, decode_responses=True, charset="utf-8")
 
 abnormal_ips_prefix = 'abnormal_IPs'
@@ -57,7 +58,7 @@ def detectionResult():
 
 def processFireWall():
     
-    time_str = time.strftime("%H:%M", time.localtime())
+    time_str = datetime.datetime.now(tz=pytz.timezone('Asia/Shanghai')).strftime("%H:%M")
     print(time_str)
     ips_keys = redis.keys('{}*'.format(abnormal_ips_prefix))
     for full_ip in ips_keys:
