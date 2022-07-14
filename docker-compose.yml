@@ -5,8 +5,8 @@ services:
     build: .
     volumes:
       - /root/web:/code
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Asia/Shanghai
     ports:
      - "5000:5000"
     command: python app.py
