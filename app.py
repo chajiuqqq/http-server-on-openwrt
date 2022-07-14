@@ -56,7 +56,7 @@ def detectionResult():
 
 def processFireWall():
     
-    time_str = time.strftime("%H:%M", time.localtime()) 
+    time_str = time.strftime("%H:%M", time.localtime(time.time)) 
     ips_keys = redis.keys('{}*'.format(abnormal_ips_prefix))
     for full_ip in ips_keys:
         count = redis.get(full_ip)
