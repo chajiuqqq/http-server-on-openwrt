@@ -46,7 +46,8 @@ def detectionResult():
     ips = data['abnormal_IPs']
     for ip in ips:
         
-        if not str(ip).startswith('192.168.6') and not str(ip).startswith('0'):    
+        # if not str(ip).startswith('192.168.6') and not str(ip).startswith('0'):    
+        if str(ip) == '192.168.2.2':
             print(ip)
             key = '{}:{}'.format(abnormal_ips_prefix,ip)
             expire_time_s = 20
