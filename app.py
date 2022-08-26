@@ -12,7 +12,7 @@ redis = Redis(host='redis', port=6379, decode_responses=True, charset="utf-8")
 abnormal_ips_prefix = 'abnormal_IPs'
 banned_ips_prefix = 'banned_IPs'
 banned_count_rule = 3
-banned_time = 3600 # 1h
+banned_time = 7200 # 1h
 
 @app.route('/')
 def hello():
